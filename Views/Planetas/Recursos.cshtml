@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Galactus.Models.Planeta>
+@using Microsoft.AspNetCore.Http;
+
+
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+<div class="container">
+    <table class="table table-bordered table-sm w-50">
+        <caption style="caption-side:top">Recursos do planeta</caption>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Carbono)</th>
+            <th>@Html.DisplayNameFor(model => model.Niobio)</th>
+            <th>@Html.DisplayNameFor(model => model.Plutonio)</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Carbono)</td>
+                <td>@Html.DisplayFor(modelItem => item.Niobio)</td>
+                <td>@Html.DisplayFor(modelItem => item.Plutonio)</td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+<div class="container">
+    <table class="table table-bordered table-sm w-50">
+        <caption style="caption-side:top">Asteroides do planeta</caption>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.AstCarbono)</th>
+            <th>@Html.DisplayNameFor(model => model.AstNiobio)</th>
+            <th>@Html.DisplayNameFor(model => model.AstPlutonio)</th>
+            <th>@Html.DisplayNameFor(model => model.AstLivre)</th>
+
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.AstCarbono)</td>
+                <td>@Html.DisplayFor(modelItem => item.AstNiobio)</td>
+                <td>@Html.DisplayFor(modelItem => item.AstPlutonio)</td>
+                <td>@Html.DisplayFor(modelItem => item.AstLivre)</td>
+            </tr>
+        }
+
+    </table>
+
+</div>
+<div class="container">
+    <table class="table table-bordered table-sm w-50">
+        <caption style="caption-side:top">Inicializar Asteroides&emsp;Custo Atual:$$$$$$$</caption>
+
+    </table>
+
+    <form asp-action="Recursos" method="post">
+        <input type="radio" name="iniAst" value="AstCarbono" /> Carbono <br />
+        <input type="radio" name="iniAst" value="AstNiobio" /> Niobio <br />
+        <input type="radio" name="iniAst" value="AstPlutonio" /> Plutonio<br />
+        Quantidade: <input type="number" name="qtdAst" min="1" value="1" />
+
+        <input type="submit" name="iniciar" value="Iniciar" />
+    </form>
+    
+</div>
+<br />
+<p>@ViewBag.Status</p>
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>
+
+

@@ -1,0 +1,50 @@
+﻿<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+
+    <p class="text-success">@ViewBag.Mensagem</p><br />
+
+<form asp-action="Pesquisa" method="post">
+    <table class="table table-bordered">
+        <caption style="caption-side:top">Pesquisas disponíveis para o planeta:</caption>
+        <tr>
+            <th>Pesquisa</th>
+            <th>Descrição</th>
+            <th>Tempo</th>
+            <th>Custo em Niobio</th>
+            <th>Clique para Pesquisar</th>
+        </tr>
+        <tr>
+            <td>Mineração aprimorada</td>
+            <td>Permite construir minas de Carbono</td>
+            <td>10</td>
+            <td>100</td>
+            <td><input type="submit" class="btn btn-primary" name="id" value="1"></td>
+        </tr>
+        <tr>
+            <td>Tecnologia de Aeronaves</td>
+            <td>Permite construir naves</td>
+            <td>12</td>
+            <td>200</td>
+            <td><input type="submit" class="btn btn-primary" name="id" value="2"></td>
+        </tr>
+        <tr>
+            <td>Desenvolvimento de radares de varredura</td>
+            <td>Permite realizar a construção de drones espiões</td>
+            <td>16</td>
+            <td>400</td>
+            <td><input type="submit" class="btn btn-primary" name="id" value="3"></td>
+        </tr>
+        <tr>
+            <td>Tecnologia de Grandes Naves</td>
+            <td>Permite desenvolver a construção de grandes naves</td>
+            <td>16</td>
+            <td>800</td>
+            <td><input type="submit" class="btn btn-primary" name="id" value="4"></td>
+        </tr>
+
+    </table>
+</form>
+
+ <p class="text-danger">@ViewBag.Status</p>

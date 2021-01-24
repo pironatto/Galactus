@@ -1,0 +1,23 @@
+﻿<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container">
+        <table class="table table-bordered table-sm w-50">
+            <caption style="caption-side:top">Procurar Asteroides&emsp;Custo de Cada Onda: 100 Niobio</caption>
+        </table>
+
+        <form asp-action="Ondas" method="post">
+            Quantidade de Ondas : <input type="number" name="qtdAst" min="1" value="1" />
+            <input type="submit" name="procurar" value="Procurar" />
+        </form>
+    </div>
+    <br />
+    <div>
+        <p>@ViewBag.Mensagem</p><br />
+        <p>@ViewBag.Mensagem2</p>
+    </div>
+
+</body>
