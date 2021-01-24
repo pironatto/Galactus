@@ -1,0 +1,77 @@
+﻿<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+
+<p class="text-success">@ViewBag.Mensagem</p>
+<br />
+
+<form asp-action="Construcoes" method="post">
+    <table class="table table-bordered">
+        <caption style="caption-side:top">Construções disponíveis para o planeta:</caption>
+        <tr>
+            <th>Construção</th>
+            <th>Descrição</th>
+            <th>Tempo</th>
+            <th>Custo em Niobio</th>
+            <th>Custo em Carbono</th>
+            <th>Clique para Construir</th>
+        </tr>
+        <tr>
+            <td>Refinaria de Nióbio</td>
+            <td>Permite ativar as minas de Niobio</td>
+            <td>10</td>
+            <td>50</td>
+            <td>100</td>
+            <td><input type="submit" class="btn btn-primary" name="id" value="1"></td>
+        </tr>
+        <tr>
+            <td>Refinaria de Carbono</td>
+            <td>Permite ativar as minas de carbono</td>
+            <td>12</td>
+            <td>100</td>
+            <td>200</td>
+            <td><input type="submit" class="btn btn-primary" name="id" value="2"></td>
+        </tr>
+        <tr>
+            <td>Estaleiros</td>
+            <td>Permite realizar a construção de naves</td>
+            <td>16</td>
+            <td>200</td>
+            <td>400</td>
+            <td><input type="submit" class="btn btn-primary" name="id" value="3"></td>
+        </tr>
+        <tr>
+            <td>Estaleiros Avançados</td>
+            <td>Permite realizar a construção de Fragatas</td>
+            <td>16</td>
+            <td>400</td>
+            <td>800</td>
+            <td><input type="submit" class="btn btn-primary" name="id" value="4"></td>
+        </tr>
+        <tr>
+            <td>Refinaria avançada</td>
+            <td>Permite ativar minas de Plutonio</td>
+            <td>20</td>
+            <td>500</td>
+            <td>1000</td>
+            <td><input type="submit" class="btn btn-primary" name="id" value="5"></td>        </tr>
+        <tr>
+            <td>Fabrica de Drones</td>
+            <td>Inicia a produção de drones espiões</td>
+            <td>20</td>
+            <td>1000</td>
+            <td>2000</td>
+            <td><input type="submit" class="btn btn-primary" name="id" value="6"></td>        </tr>
+        <tr>
+            <td>Estaleiro orbital</td>
+            <td>Possibilita a produção de naves mãe</td>
+            <td>24</td>
+            <td>2000</td>
+            <td>3000</td>
+            <td><input type="submit" class="btn btn-primary" name="id" value="7"></td>        </tr>
+
+    </table>
+</form>
+
+<p class="text-danger">@ViewBag.Status</p>

@@ -103,7 +103,7 @@ namespace Galactus.Controllers
 
                 }
                 else
-                {                    
+                {
                     switch (iniAst)
                     {
                         case "AstCarbono":
@@ -134,12 +134,13 @@ namespace Galactus.Controllers
                             break;
 
                     }
-                }                                            
-             
+                }
+
             }
             return View(lista.Where(m => m.Nome == nome));
 
         }
+
 
         // GET: Planetas/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -166,15 +167,15 @@ namespace Galactus.Controllers
             TempData["tempo"] = timeControle.Tempo.ToString();
 
             nome = HttpContext.Session.GetString("nome");
-            var lista = _context.Planeta.ToList();
-            foreach (var item in lista)
+            var numero = await _context.Planeta.FirstOrDefaultAsync(m => m.Nome == nome);
+
+            if (numero.pesMin == 1 || numero.pesNav == 1 || numero.pesRad == 1)
             {
-                if (item.pesMin == 1 || item.pesGde == 1 || item.pesNav == 1 || item.pesRad == 1)
-                {
-                    ViewBag.Mensagem = "Existe uma pesquisa em andamento !";
-                }
+                ViewBag.Mensagem = "Existe uma pesquisa em andamento !";
+
             }
-            return View(lista.Where(m => m.Nome == nome));
+
+            return View();
         }
 
         [HttpPost]
@@ -182,84 +183,229 @@ namespace Galactus.Controllers
         public async Task<IActionResult> Pesquisa(string id, [Bind("Niobio")] Planeta planeta)
         {
             var nome = HttpContext.Session.GetString("nome");
-            var lista = _context.Planeta.ToList();
 
-            foreach (var item in lista)
+            var numero = await _context.Planeta.FirstOrDefaultAsync(m => m.Nome == nome);
+            if (id == "1" && numero.pesMin != 1)
             {
-                var numero = await _context.Planeta.FirstOrDefaultAsync(m => m.Nome == nome);
-                if (id == "1" && item.pesMin != 1)
+                if (numero.Niobio < 100)
                 {
-                    if (item.Niobio < 100)
-                    {
-                        ViewBag.Status = "Você não tem nióbio suficiente para iniciar a pesquisa !";
-                    }
-                    else
-                    {
-                        item.Niobio -= 100;
-                        item.pesMin = 1;
-                        ViewBag.Status = "Pesquisa de Mineração iniciada !";
-                        _context.Update(numero);
-                        await _context.SaveChangesAsync();
-                    }
-
+                    ViewBag.Status = "Você não tem nióbio suficiente para iniciar a pesquisa !";
                 }
-                else if (id == "2" && item.pesMin == 2)
-                {
-                    if (item.Niobio < 200)
-                    {
-                        ViewBag.Status = "Você não tem nióbio suficiente para iniciar a pesquisa !";
-                    }
-                    else
-                    {
-                        item.Niobio -= 200;
-                        item.pesNav = 1;
-                        _context.Update(numero);
-                        await _context.SaveChangesAsync();
-                        ViewBag.Status = "Pesquisa de Aeronaves iniciada !";
-                    }
-                }
-                else if (id == "3" && item.pesMin == 2 && item.pesNav == 2)
-                {
-                    if (item.Niobio < 500)
-                    {
-                        ViewBag.Status = "Você não tem nióbio suficiente para iniciar a pesquisa !";
-                    }
-                    else
-                    {
-                        item.Niobio -= 500;
-                        item.pesRad = 1;
-                        ViewBag.Status = "Pesquisa de Radares iniciada !";
-                        _context.Update(numero);
-                        await _context.SaveChangesAsync();
-                    }
-                }
-                else if (id == "4" && item.pesMin == 2 && item.pesNav == 2 && item.pesRad == 2)
-                {
-                    if (item.Niobio < 1000)
-                    {
-                        ViewBag.Status = "Você não tem nióbio suficiente para iniciar a pesquisa !";
-                    }
-                    else
-                    {
-                        item.Niobio -= 1000;
-                        item.pesGde = 1;
-                        ViewBag.Status = "Pesquisa de Grandes Naves iniciada !";
-                        _context.Update(numero);
-                        await _context.SaveChangesAsync();
-                    }
-                }
-
                 else
                 {
-                    ViewBag.Status = "Você não concluiu a pesquisa anterior !";
+                    numero.Niobio -= 100;
+                    numero.pesMin = 1;
+                    ViewBag.Status = "Pesquisa de Mineração iniciada !";
+                    _context.Update(numero);
+                    await _context.SaveChangesAsync();
                 }
 
-
-
             }
-            return View(lista.Where(m => m.Nome == nome));
+            else if (id == "2" && numero.pesMin == 2)
+            {
+                if (numero.Niobio < 200)
+                {
+                    ViewBag.Status = "Você não tem nióbio suficiente para iniciar a pesquisa !";
+                }
+                else
+                {
+                    numero.Niobio -= 200;
+                    numero.pesNav = 1;
+                    _context.Update(numero);
+                    await _context.SaveChangesAsync();
+                    ViewBag.Status = "Pesquisa de Aeronaves iniciada !";
+                }
+            }
+            else if (id == "3" && numero.pesMin == 2 && numero.pesNav == 2)
+            {
+                if (numero.Niobio < 500)
+                {
+                    ViewBag.Status = "Você não tem nióbio suficiente para iniciar a pesquisa !";
+                }
+                else
+                {
+                    numero.Niobio -= 500;
+                    numero.pesRad = 1;
+                    ViewBag.Status = "Pesquisa de Radares iniciada !";
+                    _context.Update(numero);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            else if (id == "4" && numero.pesMin == 2 && numero.pesNav == 2 && numero.pesRad == 2)
+            {
+                if (numero.Niobio < 1000)
+                {
+                    ViewBag.Status = "Você não tem nióbio suficiente para iniciar a pesquisa !";
+                }
+                else
+                {
+                    numero.Niobio -= 1000;
+                    numero.pesGde = 1;
+                    ViewBag.Status = "Pesquisa de Grandes Naves iniciada !";
+                    _context.Update(numero);
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            else
+            {
+                ViewBag.Status = "Você não concluiu a pesquisa anterior !";
+            }
+
+            return View();
 
         }
+
+        public async Task<IActionResult> Construcoes(string nome)
+        {
+            // PARA PEGAR O TICK DO JOGO NA TABELA DO BANCO DE DADOS
+            var timeControle = await _context.TimeControle.FirstOrDefaultAsync(m => m.Id == 1);
+            TempData["tempo"] = timeControle.Tempo.ToString();
+
+            nome = HttpContext.Session.GetString("nome");
+            var numero = await _context.Planeta.FirstOrDefaultAsync(m => m.Nome == nome);
+
+            if (numero.consRefNio == 1 || numero.consRefCar == 1 || numero.consEsta == 1 || numero.consEstaAv == 1 || numero.consRefAvan == 1 || numero.consFabDro == 1 || numero.consEstaOrb == 1)
+            {
+                ViewBag.Mensagem = "Existe uma construção em andamento !";
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Construcoes(string id, [Bind("Carbono,Niobio")] Planeta planeta)
+        {
+            var nome = HttpContext.Session.GetString("nome");
+            var lista = _context.Planeta.ToList();
+
+                var numero = await _context.Planeta.FirstOrDefaultAsync(m => m.Nome == nome);
+            if (id == "1" && numero.consRefNio != 1)
+            {
+                if (numero.Niobio < 50 && numero.Carbono < 100)
+                {
+                    ViewBag.Status = "Você não tem recursos suficientes para iniciar a pesquisa !";
+                }
+                else
+                {
+                    numero.Niobio -= 50;
+                    numero.Carbono -= 100;
+                    numero.consRefNio = 1;
+                    ViewBag.Status = "Construção de Refinaria iniciada !";
+                    _context.Update(numero);
+                    await _context.SaveChangesAsync();
+                }
+
+            }
+            else if (id == "2" && numero.consRefNio == 2)
+            {
+                if (numero.Niobio < 100 && numero.Carbono < 200)
+                {
+                    ViewBag.Status = "Você não tem recursos suficientes para iniciar a pesquisa !";
+                }
+                else
+                {
+                    numero.Niobio -= 100;
+                    numero.Carbono -= 200;
+                    numero.consRefCar = 1;
+                    _context.Update(numero);
+                    await _context.SaveChangesAsync();
+                    ViewBag.Status = "Construção de Refinaria iniciada !";
+                }
+            }
+            else if (id == "3" && numero.consRefNio == 2 && numero.consRefCar == 2)
+            {
+                if (numero.Niobio < 200 && numero.Carbono < 400)
+                {
+                    ViewBag.Status = "Você não tem recursos suficientes para iniciar a pesquisa !";
+                }
+                else
+                {
+                    numero.Niobio -= 200;
+                    numero.Carbono -= 400;
+                    numero.consEsta = 1;
+                    ViewBag.Status = "Construção de Estaleiros iniciada !";
+                    _context.Update(numero);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            else if (id == "4" && numero.consRefNio == 2 && numero.consRefCar == 2 && numero.consEsta == 2)
+            {
+                if (numero.Niobio < 400 && numero.Carbono < 800)
+                {
+                    ViewBag.Status = "Você não tem recursos suficientes para iniciar a pesquisa !";
+                }
+                else
+                {
+                    numero.Niobio -= 400;
+                    numero.Carbono -= 800;
+                    numero.consEstaAv = 1;
+                    ViewBag.Status = "Construção de Estaleiros avançados iniciada !";
+                    _context.Update(numero);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            else if (id == "5" && numero.consRefNio == 2 && numero.consRefCar == 2 && numero.consEsta == 2 && numero.consEstaAv == 2)
+            {
+                if (numero.Niobio < 500 && numero.Carbono < 1000)
+                {
+                    ViewBag.Status = "Você não tem recursos suficientes para iniciar a pesquisa !";
+                }
+                else
+                {
+                    numero.Niobio -= 500;
+                    numero.Carbono -= 1000;
+                    numero.consRefAvan = 1;
+                    ViewBag.Status = "Construção de Refinaria avançada iniciada !";
+                    _context.Update(numero);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            else if (id == "6" && numero.consRefNio == 2 && numero.consRefCar == 2 && numero.consEsta == 2 && numero.consEstaAv == 2 && numero.consRefAvan == 2)
+            {
+                if (numero.Niobio < 1000 && numero.Carbono < 2000)
+                {
+                    ViewBag.Status = "Você não tem recursos suficientes para iniciar a pesquisa !";
+                }
+                else
+                {
+                    numero.Niobio -= 1000;
+                    numero.Carbono -= 2000;
+                    numero.consFabDro = 1;
+                    ViewBag.Status = "Construção de Fabrica de Drones iniciada !";
+                    _context.Update(numero);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            else if (id == "7" && numero.consRefNio == 2 && numero.consRefCar == 2 && numero.consEsta == 2 && numero.consEstaAv == 2 && numero.consRefAvan == 2 && numero.consFabDro == 2)
+            {
+                if (numero.Niobio < 2000 && numero.Carbono < 3000)
+                {
+                    ViewBag.Status = "Você não tem recursos suficientes para iniciar a pesquisa !";
+                }
+                else
+                {
+                    numero.Niobio -= 2000;
+                    numero.Carbono -= 3000;
+                    numero.consEstaOrb = 1;
+                    ViewBag.Status = "Construção de Estaleiro Orbital iniciada !";
+                    _context.Update(numero);
+                    await _context.SaveChangesAsync();
+                }
+
+            }
+            else
+            {
+                ViewBag.Status = "Você não concluiu a construção  anterior !";
+            }
+                       
+            return View();
+
+        }
+
+
+
 
 
         public async Task<IActionResult> Ondas(string qtdAst, string procurar)
@@ -294,7 +440,6 @@ namespace Galactus.Controllers
 
             return View();
         }
-
 
 
         // GET: Planetas/Create

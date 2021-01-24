@@ -23,6 +23,16 @@ namespace Galactus.Models
         public int pesRad { get; set; }
         public int pesGde { get; set; }
 
+        public int consRefNio { get; set; }
+        public int consRefCar { get; set; }
+        public int consEsta { get; set; }
+        public int consEstaAv { get; set; }
+        public int consRefAvan { get; set; }
+        public int consFabDro{ get; set; }
+        public int consEstaOrb { get; set; }
+
+
+
         public Planeta()
         {
 
