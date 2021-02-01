@@ -14,7 +14,7 @@
                 @Html.DisplayNameFor(model => model.Nome)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                Asteroides Iniciados
             </th>
             <th></th>
         </tr>
@@ -26,7 +26,7 @@
                 @Html.DisplayFor(modelItem => item.Nome)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Email)
+                @item.SomaAstIniciados().ToString()
             </td>
         </tr>
 }

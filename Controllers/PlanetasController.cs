@@ -19,6 +19,8 @@ namespace Galactus.Controllers
             _context = context;
         }
 
+        public ControleTecPlanetas ControleTec = new ControleTecPlanetas();
+
         // GET: Planetas
         public async Task<IActionResult> Index()
         {
@@ -172,7 +174,12 @@ namespace Galactus.Controllers
             if (numero.pesMin == 1 || numero.pesNav == 1 || numero.pesRad == 1)
             {
                 ViewBag.Mensagem = "Existe uma pesquisa em andamento !";
-
+            }
+            if (Convert.ToInt32(TempData["Tempo"]) >= ControleTec.tempoPesquisa)
+            {
+                numero.pesMin = 2;
+                _context.Update(numero);
+                await _context.SaveChangesAsync();
             }
 
             return View();
@@ -185,7 +192,7 @@ namespace Galactus.Controllers
             var nome = HttpContext.Session.GetString("nome");
 
             var numero = await _context.Planeta.FirstOrDefaultAsync(m => m.Nome == nome);
-            if (id == "1" && numero.pesMin != 1)
+            if (id == "1" && numero.pesMin == 0)
             {
                 if (numero.Niobio < 100)
                 {
@@ -198,6 +205,7 @@ namespace Galactus.Controllers
                     ViewBag.Status = "Pesquisa de Mineração iniciada !";
                     _context.Update(numero);
                     await _context.SaveChangesAsync();
+                    ControleTec.tempoPesquisa = Convert.ToInt32(TempData["Tempo"]) + 1; //INFORMAR TEMPO DE PESQUISA
                 }
 
             }

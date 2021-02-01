@@ -44,5 +44,12 @@ namespace Galactus.Models
             Nome = nome;
             Email = email;
         }
+
+
+        public int SomaAstIniciados()
+        {
+            int soma = AstNiobio + AstPlutonio + AstCarbono;
+            return soma;
+        }
     }
 }
